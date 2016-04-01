@@ -14,9 +14,22 @@
  )
 (global-hl-line-mode -1)
 (setq prelude-guru nil)
-(add-hook 'html-mode-hook
-          (lambda ()
-            (make-local-variable 'whitespace-line-count)
-            (setq-local whitespace-line-column 120)
-            (whitespace-mode 0)
-            (whitespace-mode 1)))
+
+(defun change-whitespace-line-column (column)
+  "Sets the `whitespace-line-column` to column in this buffer."
+  (make-local-variable 'whitespace-line-count)
+  (setq-local whitespace-line-column column)
+  (whitespace-mode 0)
+  (whitespace-mode 1))
+(add-hook 'html-mode-hook (lambda () (change-whitespace-line-column 999)))
+
+(set-default 'truncate-lines t)
+
+(defun compilation-exit-autoclose (status code msg)
+  (when (and (eq status 'exit) (zerop code))
+    (bury-buffer)
+    (delete-window (get-buffer-window (get-buffer "*compilation*"))))
+  (cons msg code))
+(setq compilation-exit-message-function 'compilation-exit-autoclose)
+
+(setq prelude-tips nil)
