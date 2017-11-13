@@ -82,4 +82,6 @@
 (add-to-list 'auto-mode-alist '("MODELS\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("PACKAGE\\'" . yaml-mode))
 
+(add-to-list 'auto-mode-alist '("COMMIT_EDITMSG\\'" . diff-mode))
+
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
